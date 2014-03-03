@@ -1,0 +1,19 @@
+{
+  "name": "choose-your-own-adventure",
+  "version": "0.0.0",
+  "description": "A choose your own adventure implementation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.fcovas.com:blog/choose-your-own-adventure.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "restify": "~2.6.2",
+    "mongoose": "^3.8.8"
+  }
+}
