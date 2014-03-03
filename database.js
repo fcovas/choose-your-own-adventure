@@ -70,36 +70,33 @@ var populateParagraphs = function(){
 	});
 };
 
-exports.getUser = function(userId){
+exports.travelTo = function(userId, paragraphId, callback){
+	var condition = { userId: userId };
+	var update = { current: paragraphId };
+	User.update(condition, update, function(err, numDocs){
+		
+		console.log('updated :' + numDocs + ' users');
 
-	User.findOne({ userId: userId }).populate('current').exec(function(err, user){
-
-		if(err){
-			console.log("Error: " + error);
-			return err;
-		} else if(!user){
-
-			console.log("User doesn't exist");
-
-			return "User doesn't exist";
-		}
-
-		console.log("Found user: " + user);
-
-		return user;
-	})
+		Paragraph.find({ number: paragraphId }).exec(function(err, paragraph){
+			
+			console.log('found paragraph: ' + paragraph);
+			
+			callback(paragraph);
+		});
+	});
 };
 
-exports.getParagraph = function(paragraphNumber){
-};
+exports.getChapter = function(userId, callback){
 
-exports.getChapter = function(userId){
-
-	User.find({ userId: userId })
-	.then(function(user){
-		Paragraph.find({ number: user.current});
-	})
-	.then(function(paragraph){
-		return paragraph;
-	})
+	User.findOne({ userId: userId }).exec(function(err, user){
+		
+		console.log('found user: ' + user);
+		
+		Paragraph.find({ number: user.current }).exec(function(err, paragraph){
+			
+			console.log('found paragraph: ' + paragraph);
+			
+			callback(paragraph);
+		});
+	});
 };

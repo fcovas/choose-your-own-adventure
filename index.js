@@ -6,6 +6,7 @@ var	server = restify.createServer({
 });
 
 server.use(restify.fullResponse());
+
 server.use(restify.bodyParser());
 
 server.get('/getChapter/:user', function(req, res, next){
@@ -14,14 +15,18 @@ server.get('/getChapter/:user', function(req, res, next){
 
 	console.log('Requesting paragraph for user ' + userId);
 
-	var paragraph = Database.getChapter(userId);
-
-	res.send(paragraph);
+	Database.getChapter(userId, function(result){
+		res.send(result);
+	});
 });
 
 server.get('/travelTo/:user/:paragraph', function(req, res, next){
 
-	res.send("User " + req.params.user + " is traveling to paragraph " + req.params.paragraph);
+	console.log('User ' + req.params.user + ' is traveling to paragraph ' + req.params.paragraph);
+
+	Database.travelTo(req.params.user, req.params.paragraph, function(result){
+		res.send(result);
+	})
 });
 
 server.listen(8085, function(){
