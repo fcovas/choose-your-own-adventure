@@ -86,7 +86,7 @@ exports.travelTo = function(userId, paragraphId, callback){
 	});
 };
 
-exports.getChapter = function(userId, callback){
+exports.getParagraph = function(userId, callback){
 
 	User.findOne({ userId: userId }).exec(function(err, user){
 		

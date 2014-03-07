@@ -9,13 +9,13 @@ server.use(restify.fullResponse());
 
 server.use(restify.bodyParser());
 
-server.get('/getChapter/:user', function(req, res, next){
+server.get('/getParagraph/:user', function(req, res, next){
 
 	var userId = req.params.user;
 
 	console.log('Requesting paragraph for user ' + userId);
 
-	Database.getChapter(userId, function(result){
+	Database.getParagraph(userId, function(result){
 		res.send(result);
 	});
 });
