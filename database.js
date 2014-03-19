@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
 	Q = require('q'),
 	restify = require('restify'),
 	MockData = require('./mockdata'),
-	
+
 	db = mongoose.connect('mongodb://localhost/adventure-db'),
 
 	UserSchema = mongoose.Schema({
@@ -17,8 +17,8 @@ var mongoose = require('mongoose'),
 	}),
 
 	User = mongoose.model(
-		'User', 
-		UserSchema	
+		'User',
+		UserSchema
 	),
 
 	Paragraph = mongoose.model(
@@ -55,7 +55,7 @@ Paragraph.find(function(err, paragraphs){
 var populateUsers = function(){
 
 	console.log('Populating users');
-	
+
 	User.create(MockData.users)
 	.error(function(err){
 		console.log("Error populating user collection: " + err);
@@ -74,19 +74,17 @@ var populateParagraphs = function(){
 
 var getServerError = function(errorMessage){
 
-	//return new restify.HttpError({ statusCode: 500, body: errorMessage });
-
 	return new restify.InternalError(errorMessage);
 }
 
-var getEntityNotFound = function(errorMessage){
-
-	return new restify.InvalidArgumentError(errorMessage);
-}
+// var getEntityNotFound = function(errorMessage){
+//
+// 	return new restify.InvalidArgumentError(errorMessage);
+// }
 
 var getError = function(errorMessage){
 
-	return new restify.InvalidContentError(errorMessage);
+	return new restify.InvalidArgumentError(errorMessage);
 }
 
 exports.getUser = function(userId){
@@ -95,13 +93,13 @@ exports.getUser = function(userId){
 
 		User.findOne({ userId: userId }).exec(function(err, user){
 
-			if(err){ 
-			
-				reject(getServerError(err)); 
+			if(err){
+
+				reject(getServerError(err));
 			}
-			else if(!user){ 
-			
-				reject(getEntityNotFound('User with id ' + userId + ' not found'));
+			else if(!user){
+
+				reject(getError('User with id ' + userId + ' not found'));
 
 			} else {
 
@@ -142,7 +140,7 @@ exports.updateUserCurrentParagraph = function(userId, paragraphId){
 			if(err || numDocs == 0){
 
 				reject(getServerError('Error updating user current paragraph'));
-			
+
 			} else {
 
 				resolve();

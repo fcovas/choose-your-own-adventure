@@ -41,6 +41,14 @@ server.get('/travelTo/:user/:paragraph', function(req, res, next){
 	.done();
 });
 
+server.get('/test', function(req, res, next){
+
+	var error = new restify.InternalError("my error");
+
+	res.send(error);
+
+});
+
 server.listen(8085, function(){
 
 	console.log('%s listening at %s', server.name, server.url);
@@ -72,7 +80,7 @@ var travelTo = function(userId, paragraphId){
 			return Database.getParagraph(user.current);
 		})
 		.then(function(paragraph){
-			
+
 			if(canTravel(paragraph, paragraphId)){
 
 				Database.updateUserCurrentParagraph(userId, paragraphId)
