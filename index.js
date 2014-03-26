@@ -112,7 +112,10 @@ var getParagraph = function(userId, callback){
 		Database.getUser(userId)
 		.then(function(user){
 
-			return getParagraph(user.current);
+			return Database.getParagraph(user.current);
+		})
+		.then(function(paragraph){
+			resolve(paragraph);
 		})
 		.fail(function(error){
 			reject(error);
